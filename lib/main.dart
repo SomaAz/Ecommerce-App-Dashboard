@@ -13,9 +13,8 @@ Future<void> main() async {
 }
 
 class EcommerceGetxDashboardApp extends StatelessWidget {
-  const EcommerceGetxDashboardApp({Key? key}) : super(key: key);
+  const EcommerceGetxDashboardApp({Key? key}) : super(key: key);  
 
-  // This widget is the root of your application.
   @override
   Widget build(BuildContext context) {
     return GetMaterialApp(

@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:getx_ecommerce_dashboard/core/constants/colors.dart';
 import 'package:getx_ecommerce_dashboard/core/enums/validated_input_type.dart';
 
 class AppFunctions {
@@ -68,5 +69,70 @@ class AppFunctions {
         colorText: Colors.white,
       );
     }
+  }
+
+  static Future<void> showOkCancelDialog({
+    required String text,
+    String title = "Alert",
+    required void Function() onConfirm,
+    void Function()? onCancel,
+    String confirmText = "Ok",
+    double? fontSize,
+  }) async {
+    await Get.defaultDialog(
+      title: title,
+      titleStyle:
+          Get.textTheme.headline3?.copyWith(fontWeight: FontWeight.w500),
+      middleText: text,
+      middleTextStyle: TextStyle(fontSize: fontSize),
+      onConfirm: onConfirm,
+      onCancel: onCancel,
+      confirmTextColor: Colors.black,
+      buttonColor: Get.theme.primaryColor,
+      cancelTextColor: Colors.black,
+      cancel: TextButton(
+        onPressed: onCancel ?? Get.back,
+        style: TextButton.styleFrom(primary: AppColors.errorColor),
+        child: const Text("Cancel"),
+      ),
+      confirm: TextButton(
+        onPressed: onConfirm,
+        child: Text(confirmText),
+      ),
+      textCancel: "cancel",
+    );
+  }
+
+  static Future<void> showChoiceDialog(
+      {required String text,
+      String title = "Choose",
+      required List<Widget>? actions
+      //  void Function() onConfirm,
+      // void Function()? onCancel,
+      // String confirmText = "Ok",
+      }) async {
+    await Get.defaultDialog(
+      title: title,
+      titleStyle:
+          Get.textTheme.headline3?.copyWith(fontWeight: FontWeight.w500),
+      middleText: text,
+
+      actions: actions,
+      // onConfirm: onConfirm,
+      // onCancel: onCancel,
+      confirmTextColor: Colors.black,
+      buttonColor: Get.theme.primaryColor,
+      // cancelTextColor: Colors.black,
+      // cancel: TextButton(
+      //   onPressed: onCancel ?? Get.back,
+      //   style: TextButton.styleFrom(primary: AppColors.errorColor),
+      //   child: const Text("Cancel"),
+      // ),
+      // confirm: TextButton(
+      //   onPressed: onConfirm,
+      //   child: Text(confirmText),
+      // ),
+      // textCancel: "cancel",
+    );
   }
 }

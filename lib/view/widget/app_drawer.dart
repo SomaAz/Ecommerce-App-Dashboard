@@ -25,47 +25,65 @@ class AppDrawer extends StatelessWidget {
               ),
             ),
           ),
-          ListTile(
-            onTap: () {
-              Get.offAllNamed(AppRoutes.dashboard);
-            },
-            leading: const Icon(Icons.home),
-            title: Text("Dashboard", style: Get.textTheme.headline5),
+          const NavigationListTile(
+            AppRoutes.dashboard,
+            title: "Dashboard",
+            icon: Icons.home,
           ),
           const GapH(6),
-          ListTile(
-            onTap: () {
-              Get.offAllNamed(AppRoutes.products);
-            },
-            leading: const Icon(Icons.shopping_bag_rounded),
-            title: Text("Products", style: Get.textTheme.headline5),
+          const NavigationListTile(
+            AppRoutes.products,
+            title: "Products",
+            icon: Icons.shopping_bag_rounded,
           ),
           const GapH(6),
-          ListTile(
-            onTap: () {
-              Get.offAllNamed(AppRoutes.orders);
-            },
-            leading: const Icon(Icons.shopping_cart_rounded),
-            title: Text("Orders", style: Get.textTheme.headline5),
+          const NavigationListTile(
+            AppRoutes.orders,
+            title: "Orders",
+            icon: Icons.shopping_cart_rounded,
           ),
           const GapH(6),
-          ListTile(
-            onTap: () {
-              Get.offAllNamed(AppRoutes.brands);
-            },
-            leading: const Icon(Icons.stars_rounded),
-            title: Text("Brands", style: Get.textTheme.headline5),
+          const NavigationListTile(
+            AppRoutes.brands,
+            title: "Brands",
+            icon: Icons.stars_rounded,
           ),
           const GapH(6),
-          ListTile(
-            onTap: () {
-              Get.offAllNamed(AppRoutes.statistics);
-            },
-            leading: const Icon(Icons.analytics_rounded),
-            title: Text("Statistics", style: Get.textTheme.headline5),
+          const NavigationListTile(
+            AppRoutes.statistics,
+            title: "Statistics",
+            icon: Icons.analytics_rounded,
           ),
         ],
       ),
+    );
+  }
+}
+
+class NavigationListTile extends StatelessWidget {
+  const NavigationListTile(
+    this.route, {
+    Key? key,
+    required this.title,
+    required this.icon,
+  }) : super(key: key);
+
+  final String route;
+  final String title;
+  final IconData icon;
+
+  @override
+  Widget build(BuildContext context) {
+    return ListTile(
+      onTap: () {
+        if (Get.currentRoute != route) {
+          Get.offAllNamed(route);
+        } else {
+          Get.back();
+        }
+      },
+      leading: Icon(icon),
+      title: Text(title, style: Get.textTheme.headline5),
     );
   }
 }
