@@ -7,12 +7,16 @@ import 'package:getx_ecommerce_dashboard/view/widget/gap.dart';
 class ProductCard extends StatelessWidget {
   const ProductCard(
     this.product, {
-    this.onDelete,
     Key? key,
+    this.onEdit,
+    this.onView,
+    this.onDelete,
   }) : super(key: key);
 
   final ProductModel product;
   final void Function()? onDelete;
+  final void Function()? onEdit;
+  final void Function()? onView;
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
@@ -121,16 +125,10 @@ class ProductCard extends StatelessWidget {
                       onDelete?.call();
                       break;
                     case "view":
-                      Get.toNamed(
-                        AppRoutes.productDetails,
-                        arguments: {"product": product},
-                      );
+                      onView?.call();
                       break;
                     case "edit":
-                      Get.toNamed(
-                        AppRoutes.editProduct,
-                        arguments: {"product": product},
-                      );
+                      onEdit?.call();
                       break;
                   }
                 },

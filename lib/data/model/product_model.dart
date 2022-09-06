@@ -86,7 +86,7 @@ class ProductModel {
       'tags': tags,
       'colors': colors.map((e) => e.value).toList(),
       'price': price,
-      'isActive': status.name,
+      'status': status.name,
       'timeCreated': timeCreated,
     };
   }

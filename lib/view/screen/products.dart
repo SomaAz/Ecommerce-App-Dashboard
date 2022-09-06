@@ -97,6 +97,14 @@ class ProductsScreen extends StatelessWidget {
                   controller.filteredProducts[index],
                   onDelete: () => controller
                       .deleteProduct(controller.filteredProducts[index]),
+                  onEdit: () => Get.toNamed(
+                    AppRoutes.editProduct,
+                    arguments: {"product": controller.filteredProducts[index]},
+                  ),
+                  onView: () => Get.toNamed(
+                    AppRoutes.productDetails,
+                    arguments: {"product": controller.filteredProducts[index]},
+                  ),
                 );
               },
             );

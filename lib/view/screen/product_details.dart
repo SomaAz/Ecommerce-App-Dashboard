@@ -1,7 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_ecommerce_dashboard/controller/product_details_controller.dart';
-import 'package:getx_ecommerce_dashboard/controller/products_controller.dart';
+import 'package:getx_ecommerce_dashboard/routes.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/gap.dart';
 
 class ProductDetailsScreen extends StatelessWidget {
@@ -47,6 +47,10 @@ class ProductDetailsScreen extends StatelessWidget {
                       controller.deleteProduct();
                       break;
                     case "edit":
+                      Get.toNamed(
+                        AppRoutes.editProduct,
+                        arguments: {"product": controller.product},
+                      );
                       break;
                   }
                 },
@@ -138,24 +142,27 @@ class ProductDetailsScreen extends StatelessWidget {
                           ),
                         ),
                       ),
-
+                      const GapH(15),
+                      SizedBox(
+                        width: double.infinity,
+                        child: Text.rich(
+                          TextSpan(
+                            children: [
+                              TextSpan(
+                                text: "Tags:  ",
+                                style: Get.textTheme.headline4,
+                              ),
+                              TextSpan(
+                                text: controller.product.tags.join(", "),
+                                style: Get.textTheme.headline4!.copyWith(
+                                  fontWeight: FontWeight.w500,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ),
                       const GapH(30),
-                      // SizedBox(
-                      //   child: Flex(
-                      //     direction: Axis.horizontal,
-                      //     mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                      //     children: const [
-                      //       Flexible(
-                      //         child: SizeSelectChip(),
-                      //       ),
-                      //       GapW(20),
-                      //       Flexible(
-                      //         child: ColorSelectChip(),
-                      //       ),
-                      //     ],
-                      //   ),
-                      // ),
-                      // const GapH(20),
                       SizedBox(
                         width: double.infinity,
                         child: Text(

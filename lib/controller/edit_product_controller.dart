@@ -1,10 +1,9 @@
 import 'dart:developer';
 import 'dart:io';
+import 'package:collection/collection.dart';
 
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
-import 'package:getx_ecommerce_dashboard/controller/products_controller.dart';
 import 'package:getx_ecommerce_dashboard/core/constants/repoisotries.dart';
 import 'package:getx_ecommerce_dashboard/core/enums/product_status.dart';
 import 'package:getx_ecommerce_dashboard/core/functions/functions.dart';
@@ -13,8 +12,8 @@ import 'package:getx_ecommerce_dashboard/data/model/product_model.dart';
 import 'package:image_picker/image_picker.dart';
 
 class EditProductController extends GetxController {
-  final ProductModel product;
-  EditProductController() : product = Get.arguments['product'];
+  late final ProductModel product;
+  EditProductController();
 
   final nameController = TextEditingController();
   final descriptionController = TextEditingController();
@@ -78,7 +77,6 @@ class EditProductController extends GetxController {
       if (tagsFormKey.currentState != null) {
         if (tagsFormKey.currentState!.validate()) {
           tags.add(tagsController.text);
-          log("${product.tags}");
           tagsController.clear();
           update();
         }
@@ -152,84 +150,96 @@ class EditProductController extends GetxController {
         status: isActive ? ProductStatus.active : ProductStatus.disabled,
         timeCreated: product.timeCreated,
       );
-      log("${editedProduct.tags}${product.tags}");
-      try {
-        if (product == editedProduct) {
-          if (!Get.isSnackbarOpen) {
-            Get.snackbar(
-              "Alert",
-              "You haven't made any edits for the products",
-            );
-          }
-        } else {
-          await AppFunctions.showOkCancelDialog(
-            onConfirm: () async {
-              setIsEditingProductLoading(true);
+      final fieldsDifferences = productFieldsDifference(editedProduct);
+      if (product == editedProduct || fieldsDifferences.isEmpty) {
+        if (!Get.isSnackbarOpen) {
+          Get.snackbar(
+            "Alert",
+            "You haven't made any edits for the products",
+          );
+        }
+      } else {
+        await AppFunctions.showOkCancelDialog(
+          onConfirm: () async {
+            setIsEditingProductLoading(true);
 
-              // Get.back();
-
+            try {
+              Get.back();
               await AppRepositories.productsRepository
                   .editProduct(editedProduct, image);
-            },
-            text:
-                """Product fields changed:\n${fieldsDifference(editedProduct)}""",
-          );
+            } catch (e) {
+              AppFunctions.showErrorSnackBar(text: "$e");
+            } finally {
+              setIsEditingProductLoading(false);
+              Get.back();
+            }
+          },
+          text: """Product fields changed:\n$fieldsDifferences""",
+        );
 
-          // await Get.find<ProductsController>().refreshData();
-        }
-
-        // Get.find<ProductsController>().setHasNextPage(true);
-      } catch (e) {
-        AppFunctions.showErrorSnackBar(text: "$e");
-      } finally {
-        setIsEditingProductLoading(false);
+        // await Get.find<ProductsController>().refreshData();
       }
+
+      // Get.find<ProductsController>().setHasNextPage(true);
     }
   }
 
-  String? fieldDifference(valueName, firstValue, secondValue) {
+  String? productFieldDifference(valueName, firstValue, secondValue) {
     return firstValue == secondValue
         ? null
         : "$valueName: $firstValue -> $secondValue";
   }
 
-  String fieldsDifference(ProductModel editedProduct) {
-    log("${editedProduct.description.toString().substring(0, 20)}\n${product.description.toString().substring(0, 20)} ");
+  String productFieldsDifference(ProductModel editedProduct) {
+    List<String> differences = [];
+
     final productMap = product.toMap();
     final editedProductMap = editedProduct.toMap();
     final keys = productMap.keys;
 
+    if (productMap['description'] != editedProductMap['description']) {
+      differences.add(
+          "description: ${productMap['description']}  -> ${editedProductMap['description']}");
+    }
+
     if (productMap['description'].length > 20) {
       productMap['description'] =
-          productMap['description'].toString().substring(0, 20);
+          "${productMap['description'].substring(0, 20)}...";
     }
-
     if (editedProductMap['description'].length > 20) {
       editedProductMap['description'] =
-          editedProductMap['description'].toString().substring(0, 20);
+          "${editedProductMap['description'].substring(0, 20)}...";
     }
     // final values = product.toMap().values;
-    List<String> differences = [];
 
     for (var key in keys) {
-      log(key);
-      final difference =
-          fieldDifference(key, productMap[key], editedProductMap[key]);
-      if (difference != null) {
-        differences.add(difference);
+      if (productMap[key] is List) {
+        final List value = productMap[key];
+        if (!value.equals(editedProductMap[key])) {
+          differences
+              .add("$key: ${productMap[key]}  -> ${editedProductMap[key]}");
+        }
+        continue;
+      }
+      if (key != "description") {
+        final difference =
+            productFieldDifference(key, productMap[key], editedProductMap[key]);
+        if (difference != null) {
+          differences.add(difference);
+        }
       }
     }
-
     return differences.join("\n");
   }
 
   @override
   void onInit() {
     loadData();
+    product = Get.arguments['product'];
     nameController.text = product.name;
     descriptionController.text = product.description;
     priceController.text = product.price.toStringAsFixed(2);
-    tags = product.tags;
+    tags.addAll(product.tags);
     isActive = product.status == ProductStatus.active;
     super.onInit();
   }
