@@ -1,5 +1,3 @@
-import 'dart:async';
-
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_ecommerce_dashboard/controller/new_product_controller.dart';
@@ -7,7 +5,6 @@ import 'package:getx_ecommerce_dashboard/core/functions/functions.dart';
 import 'package:getx_ecommerce_dashboard/data/model/categoy_model.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/auth/custom_textformfield.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/custom_button.dart';
-import 'package:getx_ecommerce_dashboard/view/widget/filter_dropdown_button.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/gap.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/loading.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/tag_widget.dart';

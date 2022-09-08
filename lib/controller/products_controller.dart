@@ -3,13 +3,12 @@ import 'dart:developer';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_ecommerce_dashboard/controller/filter_bottom_sheet_controller.dart';
-import 'package:getx_ecommerce_dashboard/core/constants/colors.dart';
 import 'package:getx_ecommerce_dashboard/core/constants/repoisotries.dart';
 import 'package:getx_ecommerce_dashboard/core/enums/product_status.dart';
 import 'package:getx_ecommerce_dashboard/core/functions/functions.dart';
 import 'package:getx_ecommerce_dashboard/data/model/product_model.dart';
-import 'package:getx_ecommerce_dashboard/view/widget/auth/custom_auth_button.dart';
-import 'package:getx_ecommerce_dashboard/view/widget/bottom_sheet_handle.dart';
+import 'package:getx_ecommerce_dashboard/view/widget/custom_button.dart';
+import 'package:getx_ecommerce_dashboard/view/widget/filter_bottom_sheet_header.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/filter_dropdown_button.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/gap.dart';
 
@@ -147,47 +146,27 @@ class ProductsController extends GetxController {
 
   void showFilterBottomSheet() {
     Get.bottomSheet<String>(
-      GetBuilder<FilterBottomSheetController>(
-          init: Get.put(FilterBottomSheetController()),
+      GetBuilder<ProductsFilterBottomSheetController>(
+          init: Get.put(ProductsFilterBottomSheetController()),
           builder: (filterBottomSheetController) {
             return Padding(
               padding: const EdgeInsets.symmetric(horizontal: 10.0),
               child: Column(
                 children: [
-                  const BottomSheetHandle(),
-                  const GapH(10),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                    children: [
-                      Text(
-                        "Filter Products",
-                        style: Get.textTheme.headline3
-                            ?.copyWith(fontWeight: FontWeight.w500),
-                      ),
-                      TextButton(
-                        onPressed: () {
-                          filterBottomSheetController.setCategory(null);
-                          filterBottomSheetController.setProductStatus(null);
-                        },
-                        style:
-                            TextButton.styleFrom(primary: AppColors.errorColor),
-                        child: const Text(
-                          "Clear Filters",
-                          // style: Get.textTheme.headline5
-                          //     ?.copyWith(color: ),
-                        ),
-                      ),
-                    ],
+                  FilterBottomSheetHeader(
+                    onClear: () {
+                      filterBottomSheetController.setCategory(null);
+                      filterBottomSheetController.setProductStatus(null);
+                    },
                   ),
                   const GapH(20),
                   FilterDropDownButton<String?>(
                     value: filterBottomSheetController.category,
-                    text: "Category",
+                    title: "Category",
                     items: const <DropdownMenuItem<String?>>[
                           DropdownMenuItem(child: Text("All Categories"))
                         ] +
-                        Get.find<ProductsController>()
-                            .categories
+                        categories
                             .map(
                               (category) => DropdownMenuItem(
                                 value: category,
@@ -200,7 +179,7 @@ class ProductsController extends GetxController {
                   const GapH(20),
                   FilterDropDownButton<ProductStatus?>(
                     value: filterBottomSheetController.productStatus,
-                    text: "Status",
+                    title: "Status",
                     items: const <DropdownMenuItem<ProductStatus?>>[
                           DropdownMenuItem(
                             child: Text("All Status"),
@@ -219,7 +198,7 @@ class ProductsController extends GetxController {
                   const Spacer(),
                   SizedBox(
                     width: Get.width * .5,
-                    child: CustomAuthButton(
+                    child: CustomButton(
                       text: "Apply Filter",
                       onPressed: () {
                         setCategoryFilter(

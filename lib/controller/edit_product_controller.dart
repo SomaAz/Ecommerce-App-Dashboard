@@ -244,5 +244,3 @@ class EditProductController extends GetxController {
     super.onInit();
   }
 }
-
-//TODO: ADD try catch for the two apps in all queries

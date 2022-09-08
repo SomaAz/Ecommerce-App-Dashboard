@@ -6,12 +6,12 @@ class FilterDropDownButton<T> extends StatelessWidget {
   const FilterDropDownButton({
     Key? key,
     required this.value,
-    required this.text,
+    required this.title,
     required this.items,
     required this.onChanged,
   }) : super(key: key);
 
-  final String text;
+  final String title;
   final T value;
   final List<DropdownMenuItem<T?>>? items;
   final void Function(T?)? onChanged;
@@ -23,7 +23,7 @@ class FilterDropDownButton<T> extends StatelessWidget {
       children: [
         Flexible(
           child: Text(
-            "$text:   ",
+            "$title:   ",
             style: Get.textTheme.headline5,
           ),
         ),
@@ -44,6 +44,20 @@ class FilterDropDownButton<T> extends StatelessWidget {
           ),
         ),
       ],
+    );
+  }
+
+  FilterDropDownButton copyWith({
+    T? value,
+    String? title,
+    List<DropdownMenuItem<T?>>? items,
+    void Function(T?)? onChanged,
+  }) {
+    return FilterDropDownButton<T>(
+      value: value ?? this.value,
+      title: title ?? this.title,
+      items: items ?? this.items,
+      onChanged: onChanged ?? this.onChanged,
     );
   }
 }

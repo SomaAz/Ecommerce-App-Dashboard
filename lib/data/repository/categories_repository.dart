@@ -1,4 +1,3 @@
-import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:getx_ecommerce_dashboard/core/constants/repoisotries.dart';
 import 'package:getx_ecommerce_dashboard/data/model/categoy_model.dart';
 

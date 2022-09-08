@@ -1,7 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:getx_ecommerce_dashboard/controller/products_controller.dart';
-import 'package:getx_ecommerce_dashboard/core/constants/theme.dart';
 import 'package:getx_ecommerce_dashboard/routes.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/app_drawer.dart';
 import 'package:getx_ecommerce_dashboard/view/widget/centered_text.dart';

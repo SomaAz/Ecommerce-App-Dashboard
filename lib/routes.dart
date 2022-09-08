@@ -2,6 +2,8 @@ import 'package:get/get.dart';
 import 'package:getx_ecommerce_dashboard/controller/edit_product_controller.dart';
 import 'package:getx_ecommerce_dashboard/controller/new_product_controller.dart';
 import 'package:getx_ecommerce_dashboard/controller/login_controller.dart';
+import 'package:getx_ecommerce_dashboard/controller/order_details_controller.dart';
+import 'package:getx_ecommerce_dashboard/controller/orders_controller.dart';
 import 'package:getx_ecommerce_dashboard/controller/product_details_controller.dart';
 import 'package:getx_ecommerce_dashboard/controller/products_controller.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/Orders.dart';
@@ -10,6 +12,7 @@ import 'package:getx_ecommerce_dashboard/view/screen/new_product.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/brands.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/dashboard.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/login.dart';
+import 'package:getx_ecommerce_dashboard/view/screen/order_details.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/product_details.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/products.dart';
 import 'package:getx_ecommerce_dashboard/view/screen/statistics.dart';
@@ -19,7 +22,6 @@ class AppRoutes {
 
   static const dashboard = "/dashboard";
   static const login = "/login";
-  static const orders = "/orders";
   static const brands = "/brands";
   static const statistics = "/statistics";
   //? Products routes
@@ -27,6 +29,9 @@ class AppRoutes {
   static const productDetails = "/product-details";
   static const newProduct = "/new-product";
   static const editProduct = "/edit-product";
+  //?Orders routes
+  static const orders = "/orders";
+  static const orderDetails = "/order-details";
 
   static final List<GetPage> getPages = [
     GetPage(
@@ -47,7 +52,12 @@ class AppRoutes {
     GetPage(
       name: orders,
       page: () => const OrdersScreen(),
-      // binding: BindingsBuilder.put(() => LoginController()),
+      binding: BindingsBuilder.put(() => OrdersController()),
+    ),
+    GetPage(
+      name: orderDetails,
+      page: () => const OrderDetailsScreen(),
+      binding: BindingsBuilder.put(() => OrderDetailsController()),
     ),
     GetPage(
       name: brands,
