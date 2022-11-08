@@ -29,11 +29,11 @@ class EcommerceGetxDashboardApp extends StatelessWidget {
 
 
 //todos:
-//TODO: Ad try catch for the two apps(Customer & Dashboard) in all queries and async await
+//TODO: Add try catch for the two apps(Customer & Dashboard) in all queries and async await
 
 //TODO: Daily Tasks:
-//! Failed In It: TODO: make  filter bottom sheet works dynamically
-//TODO: make (orders filter bottom sheet)
-//TODO: make (order details view)
+//! Failed: TODO: make  filter bottom sheet works dynamically
+//? Finished: TODO: make (orders filter bottom sheet)
+//? Finished: TODO: make (order details view)
 //TODO: make (change status) feature in order details view
 //TODO: make (change tracking status) feature in order details view

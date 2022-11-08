@@ -17,6 +17,23 @@ class OrderDetailsScreen extends StatelessWidget {
     return Scaffold(
       appBar: AppBar(
         title: const Text("Order Details"),
+        actions: [
+          PopupMenuButton(itemBuilder: (context) {
+            return [
+              PopupMenuItem(
+                value: "change-status",
+                child: Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: const [
+                    Icon(Icons.edit),
+                    GapW(4),
+                    Text("Change Status"),
+                  ],
+                ),
+              ),
+            ];
+          }),
+        ],
       ),
       body: GetBuilder<OrderDetailsController>(
         builder: (controller) {
@@ -42,11 +59,45 @@ class OrderDetailsScreen extends StatelessWidget {
                 ],
               ),
               const GapH(10),
-              Text(
-                order.status.name,
-                style: Get.textTheme.headline5!
-                    .copyWith(color: order.status.color),
+              SizedBox(
+                width: Get.width * .1,
+                child: InputDecorator(
+                  decoration: const InputDecoration(
+                    border: OutlineInputBorder(),
+                    contentPadding: EdgeInsets.symmetric(
+                      horizontal: 12,
+                      vertical: 4,
+                    ),
+                  ),
+                  child: DropdownButtonHideUnderline(
+                    child: DropdownButton<OrderStatus>(
+                      value: order.status,
+                      onChanged: (value) {
+                        if (value != null) {
+                          controller.changeOrderStatus(value);
+                        }
+                      },
+                      items: OrderStatus.values
+                          .map(
+                            (status) => DropdownMenuItem<OrderStatus>(
+                              value: status,
+                              child: Text(
+                                status.name,
+                                style: Get.textTheme.headline5!
+                                    .copyWith(color: status.color),
+                              ),
+                            ),
+                          )
+                          .toList(),
+                    ),
+                  ),
+                ),
               ),
+              // Text(
+              //   order.status.name,
+              //   style: Get.textTheme.headline5!
+              //       .copyWith(color: order.status.color),
+              // ),
               const GapH(40),
               Text(
                 "${order.products.length} items",
@@ -177,24 +228,24 @@ class OrderDetailsScreen extends StatelessWidget {
           );
         },
       ),
-      bottomNavigationBar: GetBuilder<OrderDetailsController>(
-        builder: (controller) {
-          return Container(
-            height: Get.statusBarHeight,
-            padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
-            child: Row(
-              // mainAxisAlignment: MainAxisAlignment.spaceBetween,
-              children: [
-                Text(
-                  "Change Status: ",
-                  style: Get.textTheme.headline4,
-                ),
-                // DropdownButton<OrderStatus>(items: [], onChanged: (value) {}),
-              ],
-            ),
-          );
-        },
-      ),
+      // bottomNavigationBar: GetBuilder<OrderDetailsController>(
+      //   builder: (controller) {
+      //     return Container(
+      //       height: Get.statusBarHeight,
+      //       padding: const EdgeInsets.symmetric(vertical: 15, horizontal: 10),
+      //       child: Row(
+      //         // mainAxisAlignment: MainAxisAlignment.spaceBetween,
+      //         children: [
+      //           Text(
+      //             "Change Status: ",
+      //             style: Get.textTheme.headline4,
+      //           ),
+      //           // DropdownButton<OrderStatus>(items: [], onChanged: (value) {}),
+      //         ],
+      //       ),
+      //     );
+      //   },
+      // ),
     );
   }
 }

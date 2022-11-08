@@ -42,18 +42,18 @@ class AppDrawer extends StatelessWidget {
             title: "Orders",
             icon: Icons.shopping_cart_rounded,
           ),
-          const GapH(6),
-          const NavigationListTile(
-            AppRoutes.brands,
-            title: "Brands",
-            icon: Icons.stars_rounded,
-          ),
-          const GapH(6),
-          const NavigationListTile(
-            AppRoutes.statistics,
-            title: "Statistics",
-            icon: Icons.analytics_rounded,
-          ),
+          // const GapH(6),
+          // const NavigationListTile(
+          //   AppRoutes.brands,
+          //   title: "Brands",
+          //   icon: Icons.stars_rounded,
+          // ),
+          // const GapH(6),
+          // const NavigationListTile(
+          //   AppRoutes.statistics,
+          //   title: "Statistics",
+          //   icon: Icons.analytics_rounded,
+          // ),
         ],
       ),
     );

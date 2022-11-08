@@ -8,7 +8,7 @@ abstract class OrdersRepositoryBase {
   Future<List<OrderModel>> getAllOrders();
   Future<int> getOrderNumber();
   Future<OrderModel> getOrderOfId(String id);
-  Future<void> changeOrderStatus(OrderModel order, OrderStatus newStatus);
+  Future<void> changeOrderStatus(String orderId, OrderStatus newStatus);
 }
 
 class OrdersRepository extends OrdersRepositoryBase {
@@ -74,10 +74,10 @@ class OrdersRepository extends OrdersRepositoryBase {
 
   @override
   Future<void> changeOrderStatus(
-    OrderModel order,
+    String orderId,
     OrderStatus newStatus,
   ) async {
-    final docRef = _ordersCollection.doc(order.id);
+    final docRef = _ordersCollection.doc(orderId);
 
     await docRef.update({"status": newStatus.name});
   }

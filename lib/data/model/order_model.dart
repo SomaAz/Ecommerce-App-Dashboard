@@ -12,7 +12,7 @@ import 'package:getx_ecommerce_dashboard/data/model/shipping_address_model.dart'
 
 class OrderModel {
   final String id;
-  final OrderStatus status;
+  OrderStatus status;
   final ShippingAddressModel shippingAddress;
   final CardModel paymentCard;
   final Timestamp timeOrdered;
